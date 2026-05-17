@@ -3,11 +3,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, LayoutGrid } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
 
 export function Hero() {
-  const router = useRouter();
+  const { signInWithGoogle } = useAuth();
   const [titleNumber, setTitleNumber] = useState(0);
   const titles = useMemo(
     () => ["effortless", "instant", "smart", "seamless", "perfect"],
@@ -67,8 +67,8 @@ export function Hero() {
               <LayoutGrid className="h-4 w-4" />
               데모 보기
             </Button>
-            <Button size="lg" className="gap-2" onClick={() => router.push("/login")}>
-              무료로 시작하기
+            <Button size="lg" className="gap-2" onClick={signInWithGoogle}>
+              Google로 시작하기
               <ArrowRight className="h-4 w-4" />
             </Button>
           </div>
