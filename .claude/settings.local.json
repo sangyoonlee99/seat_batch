@@ -5,7 +5,12 @@
       "PowerShell(npm run *)",
       "Bash(git add *)",
       "Bash(git commit *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\sangy\\\\Projects\\\\seat_batch\\\\app\" -Recurse | Where-Object {-not $_.PSIsContainer} | Select-Object FullName)",
+      "Bash(dir C:\\\\Users\\\\sangy\\\\Projects\\\\seat_batch *)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\sangy\\\\Projects\\\\seat_batch\\\\components\" -Recurse | Where-Object {-not $_.PSIsContainer} | Select-Object FullName)",
+      "PowerShell(tree /F \"C:\\\\Users\\\\sangy\\\\Projects\\\\seat_batch\" /exclude node_modules,.next,.claude)",
+      "Bash(npx tsc *)"
     ]
   }
 }
