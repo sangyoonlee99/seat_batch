@@ -9,6 +9,7 @@ import { useAuth } from "@/contexts/AuthContext";
 export function Hero() {
   const { signInWithGoogle } = useAuth();
   const [titleNumber, setTitleNumber] = useState(0);
+  const [loading, setLoading] = useState(false);
   const titles = useMemo(
     () => ["effortless", "instant", "smart", "seamless", "perfect"],
     []
@@ -20,6 +21,23 @@ export function Hero() {
     }, 2000);
     return () => clearTimeout(timeoutId);
   }, [titleNumber, titles]);
+
+  useEffect(() => {
+    const handlePageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) setTimeout(() => setLoading(false), 0);
+    };
+    window.addEventListener("pageshow", handlePageShow);
+    return () => window.removeEventListener("pageshow", handlePageShow);
+  }, []);
+
+  const handleSignIn = async () => {
+    setLoading(true);
+    try {
+      await signInWithGoogle();
+    } catch {
+      setLoading(false);
+    }
+  };
 
   return (
     <section className="w-full bg-white">
@@ -67,9 +85,9 @@ export function Hero() {
               <LayoutGrid className="h-4 w-4" />
               데모 보기
             </Button>
-            <Button size="lg" className="gap-2" onClick={signInWithGoogle}>
-              Google로 시작하기
-              <ArrowRight className="h-4 w-4" />
+            <Button size="lg" className="gap-2" onClick={handleSignIn} disabled={loading}>
+              {loading ? '연결 중...' : 'Google로 시작하기'}
+              {!loading && <ArrowRight className="h-4 w-4" />}
             </Button>
           </div>
 

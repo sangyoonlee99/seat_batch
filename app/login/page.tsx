@@ -2,9 +2,28 @@
 
 import { useAuth } from '@/contexts/AuthContext'
 import { Button } from '@/components/ui/button'
+import { useEffect, useState } from 'react'
 
 export default function LoginPage() {
   const { signInWithGoogle } = useAuth()
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    const handlePageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) setTimeout(() => setLoading(false), 0)
+    }
+    window.addEventListener('pageshow', handlePageShow)
+    return () => window.removeEventListener('pageshow', handlePageShow)
+  }, [])
+
+  const handleSignIn = async () => {
+    setLoading(true)
+    try {
+      await signInWithGoogle()
+    } catch {
+      setLoading(false)
+    }
+  }
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center gap-6 bg-white px-4">
@@ -19,7 +38,8 @@ export default function LoginPage() {
         size="lg"
         variant="outline"
         className="gap-3 px-8"
-        onClick={signInWithGoogle}
+        onClick={handleSignIn}
+        disabled={loading}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +64,7 @@ export default function LoginPage() {
             fill="#EA4335"
           />
         </svg>
-        Google로 계속하기
+        {loading ? '연결 중...' : 'Google로 계속하기'}
       </Button>
     </main>
   )
