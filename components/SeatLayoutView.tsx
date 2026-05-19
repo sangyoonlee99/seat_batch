@@ -37,7 +37,7 @@ export default function SeatLayoutView({
     setError(null)
     startTransition(async () => {
       const result = await assignTeams(sessionName.trim() || defaultSessionName)
-      if ('error' in result) setError(result.error)
+      if ('error' in result) setError(result.error ?? null)
     })
   }
 
@@ -54,7 +54,7 @@ export default function SeatLayoutView({
     setError(null)
     startTransition(async () => {
       const result = await swapTeams(session.id, selected[0], selected[1])
-      if ('error' in result) setError(result.error)
+      if ('error' in result) setError(result.error ?? null)
       else setSelected([])
     })
   }
