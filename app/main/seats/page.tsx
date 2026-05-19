@@ -34,7 +34,7 @@ export default async function SeatsPage() {
       .eq('session_id', session.id)
       .order('team_number')
 
-    assignments = (data as SeatAssignmentWithProfile[]) ?? []
+    assignments = (data as unknown as SeatAssignmentWithProfile[]) ?? []
   }
 
   return (
