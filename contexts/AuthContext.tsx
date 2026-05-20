@@ -46,13 +46,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const redirectTo = `${window.location.origin}/auth/callback`
     await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo },
+      options: {
+        redirectTo,
+        queryParams: { prompt: 'select_account' },
+      },
     })
   }, [supabase])
 
   const signOut = useCallback(async () => {
-    await supabase.auth.signOut()
-    router.push('/login')
+    await supabase.auth.signOut({ scope: 'global' })
+    router.push('/')
   }, [supabase, router])
 
   return (
